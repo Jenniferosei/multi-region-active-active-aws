@@ -1,0 +1,19 @@
+# Ignore Terraform working files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.lock.hcl
+crash.log
+
+# Ignore temporary files
+*.log
+*.bak
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Optional: ignore execution files
+*.exe
+*.bin
