@@ -64,7 +64,8 @@ resource "aws_ecs_task_definition" "this" {
 
 resource "aws_ecs_service" "this" {
   name            = "${var.name}-service"
-  cluster         = aws_ecs_cluster.this.id
+  cluster = aws_ecs_cluster.this.id
+#   cluster=aws_ecs_cluster.this.arn
   launch_type     = "FARGATE"
   desired_count   = 1
   task_definition = aws_ecs_task_definition.this.arn
