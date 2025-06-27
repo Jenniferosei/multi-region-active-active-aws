@@ -8,6 +8,15 @@ module "vpc_us_east" {
   environment     = "prod"
 }
 
+module "global_accelerator" {
+  source = "../../modules/global-accelerator"
+
+  alb_arn_use1 = module.ecs_us_east.lb_arn
+  # alb_arn_euw1 = module.ecs_eu_west.lb_arn
+  alb_arn_euw1 = "arn:aws:elasticloadbalancing:eu-west-1:879381287275:loadbalancer/app/multi-region-use1-alb/3a53daeca7b8aadd"
+
+}
+
 resource "aws_iam_role" "ecs_task_execution" {
   name = "ecsTaskExecutionRole"
 
