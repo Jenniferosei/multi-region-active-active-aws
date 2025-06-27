@@ -1,4 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
 resource "aws_ecs_cluster" "this" {
+  provider = aws
   name = var.cluster_name
 }
 
@@ -38,6 +47,7 @@ resource "aws_lb_listener" "this" {
 }
 
 resource "aws_ecs_task_definition" "this" {
+  provider = aws
   family                   = "${var.name}-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -63,9 +73,11 @@ resource "aws_ecs_task_definition" "this" {
 }
 
 resource "aws_ecs_service" "this" {
+  provider = aws
   name            = "${var.name}-service"
-  cluster = aws_ecs_cluster.this.id
+   cluster = aws_ecs_cluster.this.id
 #   cluster=aws_ecs_cluster.this.arn
+  # cluster=aws_ecs_cluster.this.arn
   launch_type     = "FARGATE"
   desired_count   = 1
   task_definition = aws_ecs_task_definition.this.arn
@@ -84,3 +96,11 @@ resource "aws_ecs_service" "this" {
 
   depends_on = [aws_lb_listener.this]
 }
+
+
+
+
+data "aws_region" "current" {}
+
+
+

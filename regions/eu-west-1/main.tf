@@ -1,3 +1,8 @@
+provider "aws" {
+  alias  = "euw1"
+  region = "eu-west-1"
+}
+
 module "vpc_eu_west" {
   source          = "../../modules/vpc"
   name            = "multi-region-euw1"
@@ -8,39 +13,11 @@ module "vpc_eu_west" {
   environment     = "prod"
 }
 
-# resource "aws_iam_role" "ecs_task_execution" {
-#   name = "ecsTaskExecutionRole"
 
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Action = "sts:AssumeRole",
-#         Principal = {
-#           Service = "ecs-tasks.amazonaws.com"
-#         },
-#         Effect = "Allow",
-#         Sid    = ""
-#       }
-#     ]
-#   })
-# }
 
 data "aws_iam_role" "ecs_task_execution" {
   name = "ecsTaskExecutionRole"
 }
-
-provider "aws" {
-  alias  = "euw1"
-  region = "eu-west-1"
-}
-
-
-# resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
-#   role       = aws_iam_role.ecs_task_execution.name
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-# }
-
 
 resource "aws_security_group" "alb_sg" {
   name        = "alb-sg"
@@ -89,8 +66,8 @@ module "ecs_eu_west" {
     aws = aws.euw1
   }
 
-  name                   = "multi-region-euw1"
-  cluster_name           = "multi-region-euw1"
+  name                   = "multi-region-use1"
+  cluster_name           = "multi-region-use1"
   vpc_id                 = module.vpc_eu_west.vpc_id
   public_subnets         = module.vpc_eu_west.public_subnets
   private_subnets        = module.vpc_eu_west.private_subnets
@@ -109,7 +86,5 @@ module "ecs_eu_west" {
 output "ecs_cluster_arn_euw1" {
   value = module.ecs_eu_west.ecs_cluster_arn
 }
-
-
 
  
