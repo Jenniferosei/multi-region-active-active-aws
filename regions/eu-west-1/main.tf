@@ -87,4 +87,18 @@ output "ecs_cluster_arn_euw1" {
   value = module.ecs_eu_west.ecs_cluster_arn
 }
 
+
+module "dynamodb_eu_west" {
+  source = "../../modules/dynamodb"
+
+  providers = {
+    aws = aws.euw1
+  }
+
+  table_name      = "multi-region-orders"
+  replica_regions = []  # No replicas from Ireland
+  environment     = "multi-region"
+}
+
+
  

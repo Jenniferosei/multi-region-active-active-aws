@@ -1,3 +1,13 @@
+# provider "aws" {
+#   alias  = "use1"
+#   region = "us-east-1"
+# }
+
+# provider "aws" {
+#   alias  = "euw1"
+#   region = "eu-west-1"
+# }
+
 module "vpc_us_east" {
   source          = "../../modules/vpc"
   name            = "multi-region-use1"
@@ -99,5 +109,31 @@ module "ecs_us_east" {
   cpu                    = 256
   memory                 = 512
 }
+
+
+module "dynamodb_us_east" {
+  source = "../../modules/dynamodb"
+
+  providers = {
+    aws = aws.use1
+  }
+
+  table_name      = "multi-region-orders"
+  replica_regions = ["eu-west-1"]
+  environment     = "multi-region"
+}
+
+module "s3" {
+  source                  = "../../modules/s3"
+  providers = {
+    aws.use1 = aws.use1
+    aws.euw1 = aws.euw1
+  }
+  source_bucket_name      = "multi-region-source-bucket-yourname"
+  destination_bucket_name = "multi-region-destination-bucket-yourname"
+}
+
+
+
 
 
