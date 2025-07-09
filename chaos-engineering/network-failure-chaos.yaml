@@ -1,0 +1,37 @@
+# apiVersion: chaos-mesh.org/v1alpha1
+# kind: NetworkChaos
+# metadata:
+#   name: region-a-network-loss
+#   namespace: chaos-testing
+# spec:
+#   action: loss
+#   mode: all
+#   selector:
+#     namespaces:
+#       - chaos-testing
+#     labelSelectors:
+#       app: nginx
+#   loss:
+#     loss: "100"
+#     correlation: "0"
+#   duration: "30s"
+
+
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: region-a-network-loss
+  namespace: chaos-testing
+spec:
+  action: loss
+  mode: one
+  selector:
+    namespaces:
+      - chaos-testing
+    labelSelectors:
+      app: nginx
+  loss:
+    loss: "100"
+    correlation: "0"
+  duration: "30s"
+  direction: to

@@ -18,3 +18,8 @@ spec:
           image: nginx
           ports:
             - containerPort: 80
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+

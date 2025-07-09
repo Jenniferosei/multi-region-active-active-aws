@@ -1,0 +1,28 @@
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: dns-debug
+#   namespace: chaos-testing
+#   labels:
+#     app: dns-debug
+# spec:
+#   containers:
+#   - name: dnsutils
+#     image: tutum/dnsutils
+#     command: ["sleep", "3600"]
+#   restartPolicy: Never
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-debug
+  namespace: chaos-testing
+  labels:
+    app: dns-debug
+spec:
+  containers:
+    - name: dnsutils
+      image: infoblox/dnstools
+      command: [ "sleep", "3600" ]
+      tty: true
+      stdin: true

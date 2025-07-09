@@ -1,0 +1,37 @@
+# apiVersion: chaos-mesh.org/v1alpha1
+# kind: DNSChaos
+# metadata:
+#   name: region-a-dns-failure
+#   namespace: chaos-testing
+# spec:
+#   action: error
+#   mode: one
+#   selector:
+#     namespaces:
+#       - chaos-testing
+#     labelSelectors:
+#       app: nginx
+#   patterns:
+#     - "amazon.com"
+#   duration: "60s"
+
+apiVersion: chaos-mesh.org/v1alpha1
+kind: DNSChaos
+metadata:
+  name: block-amazon
+  namespace: chaos-testing
+spec:
+  action: error
+  mode: all
+  selector:
+    namespaces:
+      - chaos-testing
+    labelSelectors:
+      app: dns-debug
+  patterns:
+    - "amazon.com"
+  duration: "5m"
+
+
+
+
